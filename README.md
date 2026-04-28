@@ -1,19 +1,17 @@
 # Data Jobs Market Intelligence Dashboard
 
-A portfolio-ready analytics project that combines **Power BI**, **Python**, and a real-world dataset of **52,924 job postings** to analyze demand, salaries, remote work, degree requirements, and skills across the data job market.
+This project combines **Power BI**, **Python**, and a real-world dataset of **52,924 job postings** to analyze demand, salaries, remote work, degree requirements, and skills across the data job market.
 
 ![Dashboard overview](assets/dashboard_page_1.png)
 
-## Why this project stands out
 
-Most portfolio dashboards stop at charts. This repository goes further:
+Objectives:
 - frames a clear business question,
 - documents the dataset,
 - includes reproducible analysis code,
 - surfaces recruiter-friendly insights,
 - and packages the Power BI dashboard with supporting assets.
 
-This makes the project much stronger for **Data Analyst**, **Business Intelligence**, and **Junior Analytics Engineer** applications.
 
 ## Business question
 
@@ -150,27 +148,4 @@ The script regenerates summary files in `insights/`.
 - Improve geographic analysis with a cleaned country-level view
 - Publish an interactive version with Power BI Service screenshots or a short demo video
 
-## Portfolio positioning
 
-Use this title on GitHub and LinkedIn:
-
-**Data Jobs Market Intelligence: Salaries, Skills, and Hiring Trends in Power BI**
-
-## Repository structure
-
-```text
-data-jobs-market-intelligence/
-├── assets/
-├── dashboard/
-├── data/
-├── docs/
-├── insights/
-├── src/
-├── .gitignore
-├── README.md
-└── requirements.txt
-```
-
-## License
-
-Add your preferred open-source license before publishing.
