@@ -12,10 +12,10 @@ OUTPUT_DIR = ROOT / "insights"
 
 
 def parse_list(value):
-    if pd.isna(value):
-        return []
     if isinstance(value, list):
         return value
+    if pd.isna(value):
+        return []
     try:
         parsed = ast.literal_eval(value)
         if isinstance(parsed, list):

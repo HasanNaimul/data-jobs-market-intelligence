@@ -1,151 +1,60 @@
-# Data Jobs Market Intelligence Dashboard
+# Data Jobs Market Intelligence
 
-This project combines **Power BI**, **Python**, and a real-world dataset of **52,924 job postings** to analyze demand, salaries, remote work, degree requirements, and skills across the data job market.
+A Power BI dashboard and Python analysis exploring job roles, advertised salaries, skills and remote-work signals in a job-posting dataset. The aim is to help a reader compare the opportunities represented by this dataset and ask better questions about career options.
 
 ![Dashboard overview](assets/dashboard_page_1.png)
 
+## Review the evidence
 
-Objectives:
-- frames a clear business question,
-- documents the dataset,
-- includes reproducible analysis code,
-- surfaces recruiter-friendly insights,
-- and packages the Power BI dashboard with supporting assets.
+- [Dashboard PDF](dashboard/Data_Jobs_Dashboard.pdf) for a quick walkthrough
+- [Power BI source](dashboard/Data_Jobs_Dashboard.pbix)
+- [Python analysis](src/analyze_jobs.py)
+- [Data dictionary](docs/data_dictionary.md) and [summary tables](insights)
 
+The two dashboard pages cover an executive overview and job-title drill-through. The repository contains the PBIX and exported previews; a live Power BI Service deployment is not provided.
 
-## Business question
+## Findings and scope
 
-**What can job seekers learn from job postings about demand, salaries, remote work, and skills in the data job market?**
+The committed role summary totals **52,924 postings**. Weighting its remote-work proportions by role counts gives approximately **13.8% remote**. These checks validate the supplied summaries internally; they do not independently verify the missing source workbook.
 
-## Project assets
+Data Engineer, Data Analyst and Data Scientist are the three largest role groups in the saved summary. Python and SQL lead the saved skills counts. Salary fields are described as **USD** in the data dictionary; country comparisons should not be interpreted as local-currency pay or representative market salaries. Salary medians cover records with reported values, not every posting.
 
-- `dashboard/Data_Jobs_Dashboard.pbix` — Power BI dashboard source file
-- `dashboard/Data_Jobs_Dashboard.pdf` — exported dashboard preview
-- `data/job_postings_monthly.xlsx` — source dataset
-- `src/analyze_jobs.py` — reproducible Python analysis
-- `insights/*.csv` — precomputed summaries for quick review
-- `docs/data_dictionary.md` — column definitions and caveats
+The dictionary describes the source as an apparent monthly slice. The original collection method, licence and exact source coverage need confirmation. These findings are not a current or complete labour-market estimate. Absence of an explicit degree mention does not prove that a role has no degree requirement.
 
-## Tools used
+## How it works
 
-- **Power BI** for dashboarding and drill-through experience
-- **Python (pandas/openpyxl)** for data cleaning and feature extraction
-- **Excel dataset** with salary, geography, source platform, and skills fields
+The script reads an Excel workbook, parses skill-list strings with `ast.literal_eval`, groups records by role and country, counts skills and writes five summary CSV files. Country summaries retain groups with at least 200 postings; skill-salary summaries retain skills with at least 500 occurrences. The `_pct` columns store proportions from 0 to 1.
 
-## Key findings
+## Setup and execution
 
-### 1) Demand is concentrated in a few roles
-The most common roles in the dataset are:
-| job_title_short      |   job_count |
-|:---------------------|------------:|
-| Data Engineer        |       14060 |
-| Data Analyst         |       12328 |
-| Data Scientist       |       11422 |
-| Senior Data Engineer |        3161 |
-| Business Analyst     |        3083 |
-
-### 2) Senior data roles command the highest pay
-By median annual salary:
-| job_title_short           |   median_year_salary |
-|:--------------------------|---------------------:|
-| Senior Data Engineer      |               153500 |
-| Senior Data Scientist     |               150000 |
-| Data Engineer             |               121650 |
-| Machine Learning Engineer |               116250 |
-| Data Scientist            |               115000 |
-
-### 3) Remote work exists, but it is not the majority
-- Remote postings: **13.8%**
-- Postings without an explicit degree mention: **34.4%**
-- Postings mentioning health insurance: **11.6%**
-
-### 4) Core tools dominate the market
-Top extracted skills:
-| skill    |   job_count |
-|:---------|------------:|
-| python   |       26646 |
-| sql      |       26229 |
-| aws      |       10534 |
-| azure    |        9964 |
-| tableau  |        8192 |
-| spark    |        8045 |
-| r        |        8008 |
-| excel    |        7705 |
-| power bi |        6796 |
-| java     |        5831 |
-
-### 5) Geography matters
-Top countries by posting count (filtered to countries with at least 200 postings):
-| job_country    |   job_count |   median_year_salary |
-|:---------------|------------:|---------------------:|
-| United States  |       14561 |             100000   |
-| United Kingdom |        4281 |              90000   |
-| India          |        4133 |             122900   |
-| France         |        2597 |              90000   |
-| Germany        |        2354 |              86400   |
-| Sudan          |        1823 |             121500   |
-| Singapore      |        1575 |              65241.5 |
-| Canada         |        1572 |             108416   |
-| Netherlands    |        1392 |             117750   |
-| Spain          |        1267 |             112430   |
-
-## Dashboard walkthrough
-
-### Page 1 — Executive overview
-![Dashboard executive overview](assets/dashboard_page_1.png)
-
-This page answers:
-- Which roles have the most demand?
-- Which roles pay the most?
-- How do annual and hourly compensation compare?
-- What does the posting trend look like?
-
-### Page 2 — Job title drill-through
-![Dashboard drill-through](assets/dashboard_page_2.png)
-
-This drill-through page turns the dashboard into a decision tool by showing, for a selected role:
-- annual and hourly salary range,
-- remote work rate,
-- degree requirement signal,
-- health insurance signal,
-- job platform mix,
-- schedule type split.
-
-## What makes this project hireable
-
-This project demonstrates:
-- dashboard design and interaction design,
-- business framing and insight prioritization,
-- structured documentation,
-- reproducible analytics with Python,
-- comfort working with semi-structured skill data.
-
-Instead of presenting “just a dashboard,” it shows an end-to-end workflow: **dataset → transformation → insight generation → decision-ready dashboard**.
-
-## Suggested talking points for interviews
-
-Use these when discussing the project:
-
-1. **Data modeling:** I combined structured salary fields with semi-structured skills fields and built summary views by role, geography, and skill.
-2. **Analytical thinking:** I focused on questions job seekers actually care about: demand, pay, remote availability, and entry barriers.
-3. **Dashboard design:** I used drill-through to let a user move from market-level trends into role-level evaluation.
-4. **Iteration mindset:** I identified weak visuals and packaged the project so it reads clearly on GitHub without needing recruiters to open Power BI.
-
-## How to run the analysis
+From the repository root, create and activate a Python virtual environment, then:
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
+```
+
+**The required `data/job_postings_monthly.xlsx` workbook is not included.** Obtain an authorised copy of the original workbook and place it at that exact path before running:
+
+```bash
 python src/analyze_jobs.py
 ```
 
-The script regenerates summary files in `insights/`.
+This command overwrites the five CSVs in `insights/`; preserve a copy if comparing with the committed results. Required fields are listed in the data dictionary. No substitute data has been created. No API credentials are required.
 
-## Recommended next improvements
+Power BI Desktop is required to open and refresh the PBIX. Its source connection must be checked against your authorised local dataset. The dashboard was not refreshed in the October 2026 review.
 
-- Add a dedicated **skills analysis page** in Power BI
-- Flatten `job_type_skills` to compare skill categories, not only raw skills
-- Add **salary drivers** analysis for remote vs non-remote roles
-- Improve geographic analysis with a cleaned country-level view
-- Publish an interactive version with Power BI Service screenshots or a short demo video
+## Tests
 
+Parser regression tests use the Python standard library test runner and pandas; no extra test dependency is required:
 
+```bash
+python -m unittest discover -s tests -v
+```
+
+The five test methods check existing lists, normalised string lists, missing values, malformed/non-list inputs and non-execution of code-like text. They exposed the original list-handling error before the fix and pass after it. Existing Python lists are preserved; serialised lists retain the original trimming and lowercasing behaviour.
+
+## Limitations and next steps
+
+End-to-end analysis cannot be reproduced without the source workbook. Tests cover parsing, not dashboard refresh or all aggregation edge cases. The skill-salary output assumes at least one skill reaches the 500-occurrence threshold; small replacement datasets may not satisfy that assumption. Repeated skills within one posting are counted as occurrences by the current script.
+
+Next steps are to confirm source provenance and permitted access, validate missingness and duplicate postings, and reproduce the dashboard against that verified source. No licence or sharing permissions have been changed.
