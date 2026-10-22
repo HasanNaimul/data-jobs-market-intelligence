@@ -47,10 +47,9 @@ def main():
     role_summary.to_csv(OUTPUT_DIR / "role_summary.csv", index=False)
 
     skill_counts = collections.Counter(itertools.chain.from_iterable(df["skills_list"]))
-    top_skills = (
-        pd.DataFrame(skill_counts.items(), columns=["skill", "job_count"])
-        .sort_values("job_count", ascending=False)
-    )
+    top_skills = pd.DataFrame(skill_counts.items(), columns=["skill", "job_count"])
+    if not top_skills.empty:
+        top_skills = top_skills.sort_values("job_count", ascending=False)
     top_skills.to_csv(OUTPUT_DIR / "top_skills.csv", index=False)
 
     skill_salary_rows = []
