@@ -55,6 +55,6 @@ The five test methods check existing lists, normalised string lists, missing val
 
 ## Limitations and next steps
 
-End-to-end analysis cannot be reproduced without the source workbook. Tests cover parsing, not dashboard refresh or all aggregation edge cases. The skill-salary output assumes at least one skill reaches the 500-occurrence threshold; small replacement datasets may not satisfy that assumption. Repeated skills within one posting are counted as occurrences by the current script.
+End-to-end analysis cannot be reproduced without the source workbook. Tests cover parsing and the no-qualifying-skills case, not dashboard refresh or every aggregation edge case. If no skill reaches the 500-occurrence threshold, the skill-salary CSV contains its headers but no data rows. Repeated skills within one posting are counted as occurrences by the current script.
 
 Next steps are to confirm source provenance and permitted access, validate missingness and duplicate postings, and reproduce the dashboard against that verified source. No licence or sharing permissions have been changed.

@@ -66,11 +66,10 @@ def main():
                 "median_hour_salary": df.loc[mask, "salary_hour_avg"].median(),
             }
         )
-    (
-        pd.DataFrame(skill_salary_rows)
-        .sort_values(["job_count", "median_year_salary"], ascending=[False, False])
-        .to_csv(OUTPUT_DIR / "skill_salary_summary.csv", index=False)
-    )
+    skill_salary_summary = pd.DataFrame(skill_salary_rows, columns=["skill", "job_count", "median_year_salary", "median_hour_salary"])
+    if not skill_salary_summary.empty:
+        skill_salary_summary = skill_salary_summary.sort_values(["job_count", "median_year_salary"], ascending=[False, False])
+    skill_salary_summary.to_csv(OUTPUT_DIR / "skill_salary_summary.csv", index=False)
 
     country_summary = (
         df.groupby("job_country")
