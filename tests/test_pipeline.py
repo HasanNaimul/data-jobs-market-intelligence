@@ -36,6 +36,10 @@ class SkillSummaryPipelineTests(unittest.TestCase):
         self.assertTrue(result.empty)
         self.assertEqual(result.columns.tolist(), ["skill", "job_count", "median_year_salary", "median_hour_salary"])
 
+    def test_no_skills_produces_header_only_outputs(self):
+        result = self._run_with_skills(["[]", "[]"])
+        self.assertTrue(result.empty)
+
     def test_qualifying_skill_is_still_reported(self):
         result = self._run_with_skills(["['python']"] * 500)
         self.assertEqual(len(result), 1)
