@@ -47,10 +47,9 @@ def main():
     role_summary.to_csv(OUTPUT_DIR / "role_summary.csv", index=False)
 
     skill_counts = collections.Counter(itertools.chain.from_iterable(df["skills_list"]))
-    top_skills = (
-        pd.DataFrame(skill_counts.items(), columns=["skill", "job_count"])
-        .sort_values("job_count", ascending=False)
-    )
+    top_skills = pd.DataFrame(skill_counts.items(), columns=["skill", "job_count"])
+    if not top_skills.empty:
+        top_skills = top_skills.sort_values("job_count", ascending=False)
     top_skills.to_csv(OUTPUT_DIR / "top_skills.csv", index=False)
 
     skill_salary_rows = []
@@ -66,11 +65,10 @@ def main():
                 "median_hour_salary": df.loc[mask, "salary_hour_avg"].median(),
             }
         )
-    (
-        pd.DataFrame(skill_salary_rows)
-        .sort_values(["job_count", "median_year_salary"], ascending=[False, False])
-        .to_csv(OUTPUT_DIR / "skill_salary_summary.csv", index=False)
-    )
+    skill_salary_summary = pd.DataFrame(skill_salary_rows, columns=["skill", "job_count", "median_year_salary", "median_hour_salary"])
+    if not skill_salary_summary.empty:
+        skill_salary_summary = skill_salary_summary.sort_values(["job_count", "median_year_salary"], ascending=[False, False])
+    skill_salary_summary.to_csv(OUTPUT_DIR / "skill_salary_summary.csv", index=False)
 
     country_summary = (
         df.groupby("job_country")
